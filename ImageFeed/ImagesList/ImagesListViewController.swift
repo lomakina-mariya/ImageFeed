@@ -11,6 +11,7 @@ class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<19).map{ "\($0)" }
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -33,8 +34,6 @@ class ImagesListViewController: UIViewController {
         let likeImage = isLikeButton ? UIImage(named: "likeButtonOn") : UIImage(named: "likeButtonOff")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
-    
-    
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -52,7 +51,6 @@ extension ImagesListViewController: UITableViewDataSource {
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
-    
 }
 
 extension ImagesListViewController: UITableViewDelegate {
@@ -71,5 +69,4 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-    
 }
