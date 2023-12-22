@@ -7,14 +7,15 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<19).map{ "\($0)" }
+
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
     
@@ -29,12 +30,10 @@ class ImagesListViewController: UIViewController {
         }
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
-        let isLikeButton = indexPath.row % 2 == 0
+        let isLikeButton = indexPath.row % 2 != 0
         let likeImage = isLikeButton ? UIImage(named: "likeButtonOn") : UIImage(named: "likeButtonOff")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
-    
-    
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -52,7 +51,6 @@ extension ImagesListViewController: UITableViewDataSource {
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
-    
 }
 
 extension ImagesListViewController: UITableViewDelegate {
@@ -71,5 +69,4 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-    
 }
