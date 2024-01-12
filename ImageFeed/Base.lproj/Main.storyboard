@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eAq-LA-WZU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="a7b-nQ-dkI">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -94,6 +94,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1263.768115942029" y="-2151.5625"/>
+        </scene>
+        <!--AuthViewController-->
+        <scene sceneID="wBD-Jy-KvK">
+            <objects>
+                <viewController id="a7b-nQ-dkI" userLabel="AuthViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="B6h-TD-h22">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo_of_Unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="oet-Ez-Yer" userLabel="Logo of Unsplash">
+                                <rect key="frame" x="177" y="425" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="1dK-cQ-TJT"/>
+                                    <constraint firstAttribute="width" constant="60" id="ipj-4o-4Ws"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLb-N1-BTh">
+                                <rect key="frame" x="16" y="737.5" width="382" height="34.5"/>
+                                <color key="backgroundColor" name="YP White"/>
+                                <color key="tintColor" name="YP Black"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Войти">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBound" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="CeJ-4r-3Xt"/>
+                        <color key="backgroundColor" name="YP Background"/>
+                        <constraints>
+                            <constraint firstItem="cLb-N1-BTh" firstAttribute="top" relation="greaterThanOrEqual" secondItem="oet-Ez-Yer" secondAttribute="bottom" constant="8" symbolic="YES" id="81I-7d-xHU"/>
+                            <constraint firstItem="oet-Ez-Yer" firstAttribute="centerX" secondItem="B6h-TD-h22" secondAttribute="centerX" id="Ho3-yt-Egu"/>
+                            <constraint firstItem="CeJ-4r-3Xt" firstAttribute="bottom" secondItem="cLb-N1-BTh" secondAttribute="bottom" constant="90" id="MgS-hV-tyo"/>
+                            <constraint firstItem="CeJ-4r-3Xt" firstAttribute="trailing" secondItem="cLb-N1-BTh" secondAttribute="trailing" constant="16" id="cyw-dT-tmu"/>
+                            <constraint firstItem="oet-Ez-Yer" firstAttribute="centerY" secondItem="B6h-TD-h22" secondAttribute="centerY" constant="7" id="k2n-sH-dE5"/>
+                            <constraint firstItem="cLb-N1-BTh" firstAttribute="leading" secondItem="CeJ-4r-3Xt" secondAttribute="leading" constant="16" id="znR-ys-s2c"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.cornerRadius" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aGK-QB-pg8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="160.86956521739131" y="-1193.3035714285713"/>
         </scene>
         <!--Profile-->
         <scene sceneID="52F-Ri-lMm">
@@ -212,10 +262,14 @@
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Backward" width="24" height="24"/>
+        <image name="Logo_of_Unsplash" width="60" height="60"/>
         <image name="SharingButton" width="50" height="50"/>
         <image name="likeButtonOn" width="44" height="44"/>
         <image name="tab_editorial_active" width="75" height="49"/>
         <image name="tab_profile_active" width="75" height="49"/>
+        <namedColor name="YP Background">
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
