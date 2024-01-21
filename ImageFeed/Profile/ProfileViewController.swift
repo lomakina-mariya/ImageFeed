@@ -1,8 +1,3 @@
-//
-//  ProfileViewController.swift
-//  ImageFeed
-//
-//  Created by Mariya on 23.12.2023.
 
 import UIKit
 
