@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5D22AB552B2CF82B00D56123 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D22AB542B2CF82B00D56123 /* ImagesListCell.swift */; };
+		5D33BC4F2B5F0E6D003C1B4D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D33BC4E2B5F0E6D003C1B4D /* NetworkError.swift */; };
+		5D33BC512B5F0EF2003C1B4D /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D33BC502B5F0EF2003C1B4D /* OAuthTokenResponseBody.swift */; };
 		5D4B09502B36468300EDA24D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4B094F2B36468300EDA24D /* ProfileViewController.swift */; };
 		5D4B09532B383C5900EDA24D /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4B09522B383C5900EDA24D /* SingleImageViewController.swift */; };
 		5D7152B52B4F4B4B001235AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7152B42B4F4B4B001235AA /* Constants.swift */; };
@@ -26,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		5D22AB542B2CF82B00D56123 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		5D33BC4E2B5F0E6D003C1B4D /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		5D33BC502B5F0EF2003C1B4D /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		5D4B094F2B36468300EDA24D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5D4B09522B383C5900EDA24D /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		5D7152B42B4F4B4B001235AA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 			children = (
 				5DD5CB0F2B55DB8E00BADE99 /* OAuth2Service.swift */,
 				5DD5CB112B58A85E00BADE99 /* OAuth2TokenStorage.swift */,
+				5D33BC4E2B5F0E6D003C1B4D /* NetworkError.swift */,
+				5D33BC502B5F0EF2003C1B4D /* OAuthTokenResponseBody.swift */,
 			);
 			path = OAuth;
 			sourceTree = "<group>";
@@ -223,6 +229,8 @@
 				5DD5CB0C2B51E1AB00BADE99 /* AuthViewController.swift in Sources */,
 				5D7152B52B4F4B4B001235AA /* Constants.swift in Sources */,
 				5D4B09532B383C5900EDA24D /* SingleImageViewController.swift in Sources */,
+				5D33BC512B5F0EF2003C1B4D /* OAuthTokenResponseBody.swift in Sources */,
+				5D33BC4F2B5F0E6D003C1B4D /* NetworkError.swift in Sources */,
 				5DD5CB0E2B51E6E400BADE99 /* WebViewViewController.swift in Sources */,
 				FD2143352B1CD6F1007EC9E2 /* SceneDelegate.swift in Sources */,
 			);

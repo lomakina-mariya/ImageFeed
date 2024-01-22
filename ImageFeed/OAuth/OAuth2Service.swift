@@ -4,6 +4,7 @@ import Foundation
 final class OAuth2Service {
     
     static let shared = OAuth2Service()
+    private init() {}
     
     private (set) var authToken: String? {
         get { OAuth2TokenStorage().token }
@@ -38,6 +39,7 @@ final class OAuth2Service {
                let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200..<300 ~= statusCode {
                     let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     guard let object = try? decoder.decode(OAuthTokenResponseBody.self, from: data) else {
                         fulfillCompletion(.failure(NetworkError.invalidDecoding))
                         return
@@ -53,26 +55,6 @@ final class OAuth2Service {
             }
         }
         task.resume()
-    }
-}
-
-enum NetworkError: Error {
-    case badURL
-    case httpStatusCode(Int)
-    case invalidDecoding
-}
-
-private struct OAuthTokenResponseBody: Decodable {
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case scope = "scope"
-        case createdAt = "created_at"
     }
 }
 
