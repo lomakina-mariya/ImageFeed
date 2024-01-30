@@ -2,18 +2,39 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    private let profileService = ProfileService.shared
     private var avatarViewVar: UIImageView?
     private var nameLabelVar: UILabel?
     private var loginLabelVar: UILabel?
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main) {[weak self] _ in
+                    guard let self = self else { return }
+                    self.updateAvatar()
+                }
+        updateAvatar()
+        
+        guard let profile = profileService.profile else {return}
         createAvatarView()
-        createNameLabel()
-        createLoginLabel()
-        createDescriptionLabel()
+        createNameLabel(profile.name)
+        createLoginLabel(profile.loginName)
+        createDescriptionLabel(profile.bio)
         createLogoutButton()
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        
     }
     
     private func createAvatarView() {
@@ -29,9 +50,9 @@ final class ProfileViewController: UIViewController {
         self.avatarViewVar = avatarView
     }
     
-    private func createNameLabel() {
+    private func createNameLabel(_ name: String) {
         let nameLabel = UILabel()
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = name
         nameLabel.textColor = UIColor(named: "YP White")
         nameLabel.font = .boldSystemFont(ofSize: 23)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -42,9 +63,9 @@ final class ProfileViewController: UIViewController {
         self.nameLabelVar = nameLabel
     }
     
-    private func createLoginLabel() {
+    private func createLoginLabel(_ login: String) {
         let loginLabel = UILabel()
-        loginLabel.text = "@ekaterina_nov"
+        loginLabel.text = login
         loginLabel.textColor = UIColor(named: "YP Gray")
         loginLabel.font = .systemFont(ofSize: 13)
         loginLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -55,9 +76,9 @@ final class ProfileViewController: UIViewController {
         self.loginLabelVar = loginLabel
     }
     
-    private func createDescriptionLabel() {
+    private func createDescriptionLabel(_ bio: String) {
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Hello, World!"
+        descriptionLabel.text = bio
         descriptionLabel.textColor = UIColor(named: "YP White")
         descriptionLabel.font = .systemFont(ofSize: 13)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
