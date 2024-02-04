@@ -1,5 +1,6 @@
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
@@ -34,11 +35,16 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        
+        avatarViewVar?.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: 40)
+        avatarViewVar?.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "userpickStub"),
+            options: [.processor(processor)])
     }
     
     private func createAvatarView() {
-        let avatarView = UIImageView(image: UIImage(named: "UserpickPhoto"))
+        let avatarView = avatarViewVar ?? UIImageView(image: UIImage(named: "userpickStub"))
         avatarView.layer.cornerRadius = 35
         avatarView.layer.masksToBounds = true
         avatarView.translatesAutoresizingMaskIntoConstraints = false

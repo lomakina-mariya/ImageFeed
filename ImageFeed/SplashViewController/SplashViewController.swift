@@ -8,6 +8,7 @@ final class SplashViewController: UIViewController {
     private let showAuthScreenId = "ShowAuthenticationScreen"
     private let profileService = ProfileService.shared
     private var blockingProgressHUD = UIBlockingProgressHUD()
+    let VC = ProfileViewController()
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,23 +64,26 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure(let error):
                 UIBlockingProgressHUD.show()
                 print("токен не получен \(error)")
+                self.showAlert()
                 break
             }
         }
     }
     
     private func fetchProfile(_ token: String) {
-        profileService.fetchProfile(token) { [weak self] result1 in
+        profileService.fetchProfile(token) { [weak self] result in
             guard let self = self else { return }
-            switch result1 {
+            switch result {
             case .success(let profile):
-                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { result2 in
-                    switch result2 {
-                    case .success(let imageUrl):
-                        print(imageUrl)
+                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { [weak self] result1 in
+                    guard let self = self else { return }
+                    switch result1 {
                     case .failure(let error):
-                        print(" аватарка не получена \(error)")
+                        print("аватарка не получена \(error)")
+                        self.showAlert()
                         break
+                    case .success(let url):
+                        print(url)
                     }
                 }
                 UIBlockingProgressHUD.dismiss()
@@ -87,9 +91,21 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 print("профиль не получен \(error)")
+                self.showAlert()
                 break
             }
         }
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(alertAction)
+        let vc = self.presentedViewController ?? self
+        vc.present(alert, animated: true)
     }
 }
 
