@@ -4,7 +4,7 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
-    private var avatarViewVar: UIImageView?
+    private var avatarViewVar = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
     private var nameLabelVar: UILabel?
     private var loginLabelVar: UILabel?
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -23,6 +23,8 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
         
         guard let profile = profileService.profile else {return}
+        
+        view.backgroundColor = UIColor(named: "YP Black")
         createAvatarView()
         createNameLabel(profile.name)
         createLoginLabel(profile.loginName)
@@ -30,21 +32,23 @@ final class ProfileViewController: UIViewController {
         createLogoutButton()
     }
     
+    // MARK: - Private func
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        avatarViewVar?.kf.indicatorType = .activity
+        avatarViewVar.kf.indicatorType = .activity
         let processor = RoundCornerImageProcessor(cornerRadius: 40)
-        avatarViewVar?.kf.setImage(
+        avatarViewVar.kf.setImage(
             with: url,
             placeholder: UIImage(named: "userpickStub"),
             options: [.processor(processor)])
     }
     
     private func createAvatarView() {
-        let avatarView = avatarViewVar ?? UIImageView(image: UIImage(named: "userpickStub"))
+        let avatarView = avatarViewVar
         avatarView.layer.cornerRadius = 35
         avatarView.layer.masksToBounds = true
         avatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +57,7 @@ final class ProfileViewController: UIViewController {
         avatarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         avatarView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         avatarView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        self.avatarViewVar = avatarView
+        
     }
     
     private func createNameLabel(_ name: String) {
@@ -63,8 +67,8 @@ final class ProfileViewController: UIViewController {
         nameLabel.font = .boldSystemFont(ofSize: 23)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        nameLabel.topAnchor.constraint(equalTo: self.avatarViewVar!.bottomAnchor, constant: 8).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: avatarViewVar!.leadingAnchor).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: self.avatarViewVar.bottomAnchor, constant: 8).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: avatarViewVar.leadingAnchor).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         self.nameLabelVar = nameLabel
     }
@@ -101,7 +105,7 @@ final class ProfileViewController: UIViewController {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 55).isActive = true
-        logoutButton.leadingAnchor.constraint(greaterThanOrEqualTo: avatarViewVar!.trailingAnchor).isActive = true
+        logoutButton.leadingAnchor.constraint(greaterThanOrEqualTo: avatarViewVar.trailingAnchor).isActive = true
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
     }
     

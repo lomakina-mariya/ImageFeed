@@ -43,6 +43,8 @@ final class OAuth2Service {
     }
 }
 
+// MARK: - Extensions OAuth2Service
+
 extension OAuth2Service {
     
     private func authTokenRequest(code: String) -> URLRequest {

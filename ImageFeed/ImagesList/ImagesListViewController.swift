@@ -1,9 +1,3 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Masha-MBP on 03.12.2023.
-//
 
 import UIKit
 
@@ -20,6 +14,8 @@ final class ImagesListViewController: UIViewController {
         formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
+    
+    // MARK: - Override func
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +44,8 @@ final class ImagesListViewController: UIViewController {
         cell.likeButton.setImage(likeImage, for: .normal)
     }
 }
+
+// MARK: - Extensions ImagesListViewController
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

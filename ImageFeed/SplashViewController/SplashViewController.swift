@@ -8,51 +8,52 @@ final class SplashViewController: UIViewController {
     private let showAuthScreenId = "ShowAuthenticationScreen"
     private let profileService = ProfileService.shared
     private var blockingProgressHUD = UIBlockingProgressHUD()
-    let VC = ProfileViewController()
+    private var logoView: UIImageView?
     
+    // MARK: - override func
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.view.backgroundColor = UIColor(named: "YP Black")
+        createLogoView()
         if OAuth2TokenStorage().token != nil {
             fetchProfile(OAuth2TokenStorage().token!)
         } else {
-            performSegue(withIdentifier: showAuthScreenId, sender: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+            viewController.delegate = self
+            viewController.modalPresentationStyle = .fullScreen
+            self.present(viewController, animated: true)
         }
     }
+    
+    // MARK: - private func
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
             fatalError("Invalid Configuration")
         }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
+        let tabBarController = UIStoryboard(
+            name: "Main",
+            bundle: .main
+        ).instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
-}
-
-extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthScreenId {
-            guard let navigationController = segue.destination as? UINavigationController,
-                  let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(showAuthScreenId)")}
-            viewController.delegate = self
-        }
-        else {
-            super.prepare(for: segue, sender: sender)
-        }
+    
+    private func createLogoView() {
+        let logoView = UIImageView(image: UIImage(named: "splash_screen_logo"))
+        logoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(logoView)
+        logoView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        logoView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        //logoView.heightAnchor.constraint(equalToConstant: 73).isActive = true
+        //logoView.widthAnchor.constraint(equalToConstant: 76).isActive = true
     }
 }
 
-// MARK: - AuthViewControllerDelegate
+// MARK: - Extensions SplashViewController - private func
 
 extension SplashViewController: AuthViewControllerDelegate {
-    func authViewViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
-    }
     
     private func fetchOAuthToken(_ code: String) {
         OAuth2Service.shared.fetchOAuthToken(code) { [weak self] result in
@@ -75,15 +76,14 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let profile):
-                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { [weak self] result1 in
-                    guard let self = self else { return }
+                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { result1 in
                     switch result1 {
                     case .failure(let error):
-                        print("аватарка не получена \(error)")
+                        print("ссылка на аватарку не получена \(error)")
                         self.showAlert()
                         break
-                    case .success(let url):
-                        print(url)
+                    case .success:
+                        print("ссылка на аватарку получена")
                     }
                 }
                 UIBlockingProgressHUD.dismiss()
@@ -106,6 +106,16 @@ extension SplashViewController: AuthViewControllerDelegate {
         alert.addAction(alertAction)
         let vc = self.presentedViewController ?? self
         vc.present(alert, animated: true)
+    }
+    
+    // MARK: - Extensions SplashViewController - func
+    
+    func authViewViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        UIBlockingProgressHUD.show()
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.fetchOAuthToken(code)
+        }
     }
 }
 

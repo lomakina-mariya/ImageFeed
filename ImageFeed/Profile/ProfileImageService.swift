@@ -9,7 +9,7 @@ final class ProfileImageService {
     private var task: URLSessionTask?
     
    
-    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         guard task == nil else {return}
         var request = URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
@@ -23,7 +23,7 @@ final class ProfileImageService {
             guard let self = self else { return }
             switch result {
             case .success(let userResult):
-                self.avatarURL = userResult.profileImage["small"]
+                self.avatarURL = userResult.profileImage["large"]
                 completionOnMainThread(.success(self.avatarURL!))
                 NotificationCenter.default
                     .post(

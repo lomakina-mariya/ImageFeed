@@ -43,6 +43,8 @@ final class WebViewViewController: UIViewController {
     }
 }
 
+// MARK: - Private Extensions WebViewViewController
+
 private extension WebViewViewController {
     func loadWebView() {
         var components = URLComponents(string: unsplashAuthorizeURLString)!
@@ -69,6 +71,8 @@ private extension WebViewViewController {
         }
     }
 }
+
+// MARK: - Extensions WebViewViewController
 
 extension WebViewViewController: WKNavigationDelegate {
     func webView(

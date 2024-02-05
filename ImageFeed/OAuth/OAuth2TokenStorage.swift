@@ -10,8 +10,6 @@ final class OAuth2TokenStorage {
         }
         set {
             KeychainWrapper.standard.set(newValue!, forKey: key)
-            
-            
         }
     }
 }

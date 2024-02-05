@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -17,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_screen_logo" translatesAutoresizingMaskIntoConstraints="NO" id="dpE-r3-wgn">
-                                <rect key="frame" x="160.33333333333334" y="401" width="72.666666666666657" height="75.333333333333314"/>
+                                <rect key="frame" x="160" y="388" width="73" height="76"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="dpE-r3-wgn" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="MkZ-1C-EXv"/>
-                            <constraint firstItem="dpE-r3-wgn" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="kuG-jm-xPo"/>
+                            <constraint firstItem="dpE-r3-wgn" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="MkZ-1C-EXv"/>
+                            <constraint firstItem="dpE-r3-wgn" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="kuG-jm-xPo"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,7 +37,7 @@
     <resources>
         <image name="splash_screen_logo" width="72.666664123535156" height="75.333335876464844"/>
         <namedColor name="YP Black">
-            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
