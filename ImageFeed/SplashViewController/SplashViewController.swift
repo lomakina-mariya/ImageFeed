@@ -46,8 +46,6 @@ final class SplashViewController: UIViewController {
         view.addSubview(logoView)
         logoView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logoView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        //logoView.heightAnchor.constraint(equalToConstant: 73).isActive = true
-        //logoView.widthAnchor.constraint(equalToConstant: 76).isActive = true
     }
 }
 
@@ -65,7 +63,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure(let error):
                 UIBlockingProgressHUD.show()
                 print("токен не получен \(error)")
-                self.showAlert()
+                self.showAlert(parameter: code, .tokenProblem)
                 break
             }
         }
@@ -76,33 +74,29 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let profile):
-                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { result1 in
-                    switch result1 {
-                    case .failure(let error):
-                        print("ссылка на аватарку не получена \(error)")
-                        self.showAlert()
-                        break
-                    case .success:
-                        print("ссылка на аватарку получена")
-                    }
-                }
+                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in}
                 UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 print("профиль не получен \(error)")
-                self.showAlert()
-                break
+                self.showAlert(parameter: token, .profileProblem)
             }
         }
     }
     
-    private func showAlert() {
+    private func showAlert(parameter: String, _ problem: WhatProblem) {
         let alert = UIAlertController(
             title: "Что-то пошло не так(",
             message: "Не удалось войти в систему",
             preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default)
+        let alertAction = UIAlertAction(title: "OK", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            switch problem {
+            case .tokenProblem: self.fetchOAuthToken(parameter)
+            case .profileProblem: self.fetchProfile(parameter)
+            }
+        }
         alert.addAction(alertAction)
         let vc = self.presentedViewController ?? self
         vc.present(alert, animated: true)
@@ -116,6 +110,11 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             self.fetchOAuthToken(code)
         }
+    }
+    
+    enum WhatProblem {
+        case tokenProblem
+        case profileProblem
     }
 }
 

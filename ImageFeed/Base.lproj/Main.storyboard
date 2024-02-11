@@ -134,7 +134,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CeJ-4r-3Xt"/>
-                        <color key="backgroundColor" name="YP Background"/>
+                        <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="oet-Ez-Yer" firstAttribute="centerX" secondItem="B6h-TD-h22" secondAttribute="centerX" id="Ho3-yt-Egu"/>
                             <constraint firstItem="CeJ-4r-3Xt" firstAttribute="bottom" secondItem="cLb-N1-BTh" secondAttribute="bottom" constant="90" id="MgS-hV-tyo"/>
@@ -328,9 +328,6 @@
         <image name="likeButtonOn" width="44" height="44"/>
         <image name="nav_back_button" width="24" height="24"/>
         <image name="tab_editorial_active" width="75" height="49"/>
-        <namedColor name="YP Background">
-            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
