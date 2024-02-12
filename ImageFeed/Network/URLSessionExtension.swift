@@ -5,6 +5,11 @@ import Foundation
 
 extension URLSession {
     func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+        let completionOnMainThread: (Result<T, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data,
                let response = response,
@@ -13,13 +18,13 @@ extension URLSession {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     guard let object = try? decoder.decode(T.self, from: data) else {
-                        completion(.failure(NetworkError.invalidDecoding))
+                        completionOnMainThread(.failure(NetworkError.invalidDecoding))
                         return
                     }
-                    completion(.success(object))
+                    completionOnMainThread(.success(object))
                 }
                 else {
-                    completion(.failure(error ?? NetworkError.httpStatusCode(statusCode)))
+                    completionOnMainThread(.failure(error ?? NetworkError.httpStatusCode(statusCode)))
                     return
                 }
             }
@@ -40,7 +45,8 @@ extension URLRequest {
     static func makeHTTPRequest(
         path: String,
         httpMethod: String,
-        baseURL: URL = DefaultBaseURL
+        baseURL: URL = DefaultBaseURL,
+        urlQueryItem: [URLQueryItem] = []
     ) -> URLRequest {
         guard let url = URL(string: path, relativeTo: baseURL) else {fatalError("Failed to create URL")}
         var request = URLRequest(url: url)
