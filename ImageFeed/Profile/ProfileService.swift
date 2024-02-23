@@ -20,6 +20,7 @@ final class ProfileService {
             case .success(let profile):
                 self.profile = Profile(username: profile.username, firstName: profile.firstName, lastName: profile.lastName ?? "", bio: profile.bio ?? "")
                 completion(.success(self.profile!))
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
                 self.task = nil

@@ -37,6 +37,8 @@ final class ProfileImageService {
     }
 }
 
+// MARK: - Extensions ProfileImageService
+
 extension ProfileImageService {
   private struct UserResult: Codable {
       var profileImage: [String: String]
