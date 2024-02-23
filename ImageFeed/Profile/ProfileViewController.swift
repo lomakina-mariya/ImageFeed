@@ -119,13 +119,10 @@ final class ProfileViewController: UIViewController {
             title: "Пока, пока!",
             message: "Уверены, что хотите выйти?",
             preferredStyle: .alert)
-        let alertActionYes = UIAlertAction(title: "Да", style: .default) {_ in
-            OAuth2TokenStorage().token = nil
+        let alertActionYes = UIAlertAction(title: "Да", style: .default) {[weak self] _ in
+            guard let self = self else { return }
             WebViewViewController.clean()
-            guard let window = UIApplication.shared.windows.first else {
-                fatalError("Invalid Configuration")
-            }
-            window.rootViewController = SplashViewController()
+            self.logout()
         }
         let alertActionNo = UIAlertAction(title: "Нет", style: .default) {[weak self] _ in
             guard let self = self else { return }
@@ -135,5 +132,14 @@ final class ProfileViewController: UIViewController {
         alert.addAction(alertActionNo)
         let vc = self.presentedViewController ?? self
         vc.present(alert, animated: true)
+    }
+    
+    private func logout() {
+        OAuth2TokenStorage().token = nil
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Invalid Configuration")
+            return
+        }
+        window.rootViewController = SplashViewController()
     }
 }

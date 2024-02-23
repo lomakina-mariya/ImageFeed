@@ -8,6 +8,7 @@ final class ProfileImageService {
     private (set) var avatarURL: String?
     private var task: URLSessionTask?
     
+    private init() {}
    
     func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)

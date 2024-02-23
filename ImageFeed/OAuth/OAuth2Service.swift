@@ -14,6 +14,9 @@ final class OAuth2Service {
             OAuth2TokenStorage().token = newValue
         }
     }
+    
+    private init() {}
+    
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         if lastCode == code { return }

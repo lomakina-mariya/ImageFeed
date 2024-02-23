@@ -11,7 +11,6 @@ final class ImagesListViewController: UIViewController {
     private var photos: [Photo] = []
     private var imageListServiceObserver: NSObjectProtocol?
     
-    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"
@@ -24,8 +23,6 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
-        OAuth2TokenStorage().token = "DJYnsZU9gln-ZQftkQzRP2lo_cEbE8Y2_OYjW1EJtYg"
         
         imageListServiceObserver = NotificationCenter.default
             .addObserver(

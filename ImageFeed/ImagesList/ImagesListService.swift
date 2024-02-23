@@ -5,9 +5,12 @@ final class ImagesListService {
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let shared = ImagesListService()
     private let urlSession = URLSession.shared
+    private let formatter = ISO8601DateFormatter()
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
+    
+    private init() {}
     
     func fetchPhotosNextPage() {
         let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
@@ -25,7 +28,7 @@ final class ImagesListService {
                     self.photos.append(Photo(
                         id: photoResult.id,
                         size: CGSize(width: photoResult.width, height: photoResult.height),
-                        createdAt: self.convertDate(stringDate: photoResult.createdAt ?? ""),
+                        createdAt: self.formatter.date(from: photoResult.createdAt ?? ""),
                         welcomeDescription: photoResult.description ?? "",
                         thumbImageURL: photoResult.urls.thumb,
                         largeImageURL: photoResult.urls.full,
@@ -74,8 +77,8 @@ final class ImagesListService {
         task.resume()
     }
     
-    private func convertDate(stringDate: String) -> Date? {
-        let formatter = ISO8601DateFormatter()
-        return formatter.date(from: stringDate)
-    }
+//    private func convertDate(stringDate: String) -> Date? {
+//        let formatter = ISO8601DateFormatter()
+//        return formatter.date(from: stringDate)
+//    }
 }
