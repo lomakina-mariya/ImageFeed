@@ -1,12 +1,19 @@
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage! {
+    var urlString: String? {
+        didSet {
+            loadPhoto()
+        }
+    }
+    
+    var image: UIImage? {
         didSet {
             guard isViewLoaded else {return}
             imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
+            rescaleAndCenterImageInScrollView(image: image ?? UIImage(named: "stub")!)
         }
     }
     
@@ -18,7 +25,7 @@ final class SingleImageViewController: UIViewController {
         imageView.image = image
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        rescaleAndCenterImageInScrollView(image: image)
+        rescaleAndCenterImageInScrollView(image: image ?? UIImage(named: "stub")!)
     }
     
     // MARK: - @IBAction private func
@@ -54,6 +61,41 @@ final class SingleImageViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
     
+    private func loadPhoto() {
+        guard let url = URL(string: urlString!) else { return }
+        let imageView = UIImageView()
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: url) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.image = imageResult.image
+            case .failure(let error):
+                self.showError()
+                print(error)
+            }
+        }
+    }
+    
+    private func showError() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert)
+        let alertActionNo = UIAlertAction(title: "Не надо", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+            }
+        let alertActionTryAgain = UIAlertAction(title: "Повторить", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            self.loadPhoto()
+            }
+        alert.addAction(alertActionNo)
+        alert.addAction(alertActionTryAgain)
+        let vc = self.presentedViewController ?? self
+        vc.present(alert, animated: true)
+    }
 }
 
 // MARK: - Extensions SingleImageViewController
@@ -62,5 +104,4 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
-    
 }

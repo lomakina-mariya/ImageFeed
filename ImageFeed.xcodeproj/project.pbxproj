@@ -18,6 +18,8 @@
 		5D1BB87A2B6EE1040015D9B4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5D1BB8792B6EE1040015D9B4 /* Kingfisher */; };
 		5D1BB87E2B6F04C60015D9B4 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 5D1BB87D2B6F04C60015D9B4 /* SwiftKeychainWrapper */; };
 		5D1BB8802B6FA3C70015D9B4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BB87F2B6FA3C70015D9B4 /* TabBarController.swift */; };
+		5D1BB8832B7911880015D9B4 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BB8822B7911880015D9B4 /* ImagesListService.swift */; };
+		5D1BB8872B792DB70015D9B4 /* ImagesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BB8862B792DB70015D9B4 /* ImagesList.swift */; };
 		5D22AB552B2CF82B00D56123 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D22AB542B2CF82B00D56123 /* ImagesListCell.swift */; };
 		5D4B09502B36468300EDA24D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4B094F2B36468300EDA24D /* ProfileViewController.swift */; };
 		5D4B09532B383C5900EDA24D /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4B09522B383C5900EDA24D /* SingleImageViewController.swift */; };
@@ -44,6 +46,8 @@
 		5D1BB8742B6C54710015D9B4 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		5D1BB8762B6C54EB0015D9B4 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		5D1BB87F2B6FA3C70015D9B4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		5D1BB8822B7911880015D9B4 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		5D1BB8862B792DB70015D9B4 /* ImagesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesList.swift; sourceTree = "<group>"; };
 		5D22AB542B2CF82B00D56123 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		5D4B094F2B36468300EDA24D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5D4B09522B383C5900EDA24D /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -80,9 +84,10 @@
 		5D1BB8712B6C53E90015D9B4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5D1BB8722B6C54280015D9B4 /* ProfileResult.swift */,
 				5D1BB8742B6C54710015D9B4 /* OAuthTokenResponseBody.swift */,
+				5D1BB8722B6C54280015D9B4 /* ProfileResult.swift */,
 				5D1BB8762B6C54EB0015D9B4 /* Profile.swift */,
+				5D1BB8862B792DB70015D9B4 /* ImagesList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 			children = (
 				FD2143362B1CD6F1007EC9E2 /* ImagesListViewController.swift */,
 				5D22AB542B2CF82B00D56123 /* ImagesListCell.swift */,
+				5D1BB8822B7911880015D9B4 /* ImagesListService.swift */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -281,7 +287,9 @@
 				FD2143372B1CD6F1007EC9E2 /* ImagesListViewController.swift in Sources */,
 				5D22AB552B2CF82B00D56123 /* ImagesListCell.swift in Sources */,
 				5DD5CB142B5C70C100BADE99 /* SplashViewController.swift in Sources */,
+				5D1BB8832B7911880015D9B4 /* ImagesListService.swift in Sources */,
 				5D4B09502B36468300EDA24D /* ProfileViewController.swift in Sources */,
+				5D1BB8872B792DB70015D9B4 /* ImagesList.swift in Sources */,
 				5DD5CB122B58A85E00BADE99 /* OAuth2TokenStorage.swift in Sources */,
 				5D1BB86A2B6576B40015D9B4 /* UIBlockingProgressHUD.swift in Sources */,
 				5D1BB8702B6B06C90015D9B4 /* URLSessionExtension.swift in Sources */,

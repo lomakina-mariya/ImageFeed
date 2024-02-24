@@ -14,7 +14,6 @@ final class WebViewViewController: UIViewController {
     @IBOutlet private var progressView: UIProgressView!
     
     private var estimatedProgressObservation: NSKeyValueObservation?
-    
     weak var delegate: WebViewViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -40,6 +39,15 @@ final class WebViewViewController: UIViewController {
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+    }
+    
+    static func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
     }
 }
 
