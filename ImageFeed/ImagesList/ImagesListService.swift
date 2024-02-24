@@ -76,9 +76,4 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
-    
-//    private func convertDate(stringDate: String) -> Date? {
-//        let formatter = ISO8601DateFormatter()
-//        return formatter.date(from: stringDate)
-//    }
 }
