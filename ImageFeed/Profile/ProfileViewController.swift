@@ -107,6 +107,7 @@ final class ProfileViewController: UIViewController {
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 55).isActive = true
         logoutButton.leadingAnchor.constraint(greaterThanOrEqualTo: avatarViewVar.trailingAnchor).isActive = true
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        logoutButton.accessibilityIdentifier = "Logout"
     }
     
     @objc
