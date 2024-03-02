@@ -2,25 +2,28 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    var avatarView: UIImageView { get set }
+    func loadAvatar(url: URL)
+    func showAlert(alert: UIAlertController)
+    func dismiss()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     private let profileService = ProfileService.shared
-    private var avatarViewVar = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
     private var nameLabelVar: UILabel?
     private var loginLabelVar: UILabel?
-    private var profileImageServiceObserver: NSObjectProtocol?
+    var avatarView = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+    var presenter: ProfilePresenterProtocol?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main) {[weak self] _ in
-                    guard let self = self else { return }
-                    self.updateAvatar()
-                }
-        updateAvatar()
+        presenter = ProfilePresenter(view: self)
+        presenter?.viewDidLoad()
         
         guard let profile = profileService.profile else {return}
         
@@ -34,21 +37,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Private func
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        avatarViewVar.kf.indicatorType = .activity
-        let processor = RoundCornerImageProcessor(cornerRadius: 40)
-        avatarViewVar.kf.setImage(
-            with: url,
-            placeholder: UIImage(named: "userpickStub"),
-            options: [.processor(processor)])
-    }
-    
     private func createAvatarView() {
-        let avatarView = avatarViewVar
         avatarView.layer.cornerRadius = 35
         avatarView.layer.masksToBounds = true
         avatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +46,6 @@ final class ProfileViewController: UIViewController {
         avatarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         avatarView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         avatarView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        
     }
     
     private func createNameLabel(_ name: String) {
@@ -67,8 +55,8 @@ final class ProfileViewController: UIViewController {
         nameLabel.font = .boldSystemFont(ofSize: 23)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        nameLabel.topAnchor.constraint(equalTo: self.avatarViewVar.bottomAnchor, constant: 8).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: avatarViewVar.leadingAnchor).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: self.avatarView.bottomAnchor, constant: 8).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         self.nameLabelVar = nameLabel
     }
@@ -105,42 +93,32 @@ final class ProfileViewController: UIViewController {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 55).isActive = true
-        logoutButton.leadingAnchor.constraint(greaterThanOrEqualTo: avatarViewVar.trailingAnchor).isActive = true
+        logoutButton.leadingAnchor.constraint(greaterThanOrEqualTo: avatarView.trailingAnchor).isActive = true
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logoutButton.accessibilityIdentifier = "Logout"
     }
     
     @objc
     private func didTapLogoutButton() {
-        showAlert()
+        presenter?.makeAlert()
     }
     
-    private func showAlert() {
-        let alert = UIAlertController(
-            title: "Пока, пока!",
-            message: "Уверены, что хотите выйти?",
-            preferredStyle: .alert)
-        let alertActionYes = UIAlertAction(title: "Да", style: .default) {[weak self] _ in
-            guard let self = self else { return }
-            WebViewViewController.clean()
-            self.logout()
-        }
-        let alertActionNo = UIAlertAction(title: "Нет", style: .default) {[weak self] _ in
-            guard let self = self else { return }
-            self.dismiss(animated: true)
-        }
-        alert.addAction(alertActionYes)
-        alert.addAction(alertActionNo)
-        let vc = self.presentedViewController ?? self
-        vc.present(alert, animated: true)
+    // MARK: - Internal func
+    
+    func loadAvatar(url: URL) {
+        avatarView.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: 40)
+        avatarView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "userpickStub"),
+            options: [.processor(processor)])
     }
     
-    private func logout() {
-        OAuth2TokenStorage().token = nil
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Invalid Configuration")
-            return
-        }
-        window.rootViewController = SplashViewController()
+    func showAlert(alert: UIAlertController) {
+        self.present(alert, animated: true)
+    }
+    
+    func dismiss() {
+        self.dismiss(animated: true)
     }
 }

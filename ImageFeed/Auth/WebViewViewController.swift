@@ -42,15 +42,6 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
         delegate?.webViewViewControllerDidCancel(self)
     }
     
-    static func clean() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
-        }
-    }
-    
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url {
             return presenter?.code(from: url)
