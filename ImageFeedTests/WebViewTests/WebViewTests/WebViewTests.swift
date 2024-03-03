@@ -89,7 +89,5 @@ final class WebViewTests: XCTestCase {
         
         //then
         XCTAssertEqual(code, "test code")
-        
     }
-
 }

@@ -3,7 +3,7 @@ import UIKit
 import Kingfisher
 
 
-protocol ProfileViewControllerProtocol: AnyObject {
+public protocol ProfileViewControllerProtocol: AnyObject {
     var presenter: ProfilePresenterProtocol? { get set }
     var avatarView: UIImageView { get set }
     func loadAvatar(url: URL)
