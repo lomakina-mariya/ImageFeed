@@ -7,8 +7,7 @@ public protocol ProfileViewControllerProtocol: AnyObject {
     var presenter: ProfilePresenterProtocol? { get set }
     var avatarView: UIImageView { get set }
     func loadAvatar(url: URL)
-    func showAlert(alert: UIAlertController)
-    func dismiss()
+    func showAlert()
 }
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
@@ -100,7 +99,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     
     @objc
     private func didTapLogoutButton() {
-        presenter?.makeAlert()
+        showAlert()
     }
     
     // MARK: - Internal func
@@ -114,11 +113,19 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
             options: [.processor(processor)])
     }
     
-    func showAlert(alert: UIAlertController) {
+    func showAlert() {
+        guard let alert = self.presenter?.makeAlert() else { return }
+        let alertActionYes = UIAlertAction(title: "Да", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            self.presenter?.logout()
+            self.presenter?.clean()
+        }
+        let alertActionNo = UIAlertAction(title: "Нет", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+        }
+        alert.addAction(alertActionYes)
+        alert.addAction(alertActionNo)
         self.present(alert, animated: true)
-    }
-    
-    func dismiss() {
-        self.dismiss(animated: true)
     }
 }

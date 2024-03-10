@@ -30,7 +30,12 @@ public struct Photo {
     var isLiked: Bool
 }
 
-struct Like: Decodable {
+public struct Like: Decodable {
+    let photo: PhotoResult
+    var isLiked: Bool {
+        photo.likedByUser
+    }
+
 }
 
 

@@ -8,7 +8,7 @@ public protocol ImagesListPresenterProtocol: AnyObject {
     func convertDate(photo: Photo) -> String
     func findImageHeight(index: Int, imageViewWidth: CGFloat) -> CGFloat
     func shouldGetNewPhotos(photoNumber: Int)
-    func changeLike(index: Int, cell: ImagesListCell)
+    func changeLike(index: Int, _ completion: @escaping (Result<Like, Error>) -> Void)
 }
 
 final class ImagesListPresenter: ImagesListPresenterProtocol {
@@ -17,7 +17,6 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"
-        formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
     weak var view: ImagesListViewControllerProtocol?
@@ -66,21 +65,18 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         }
     }
     
-    func changeLike(index: Int, cell: ImagesListCell) {
+    func changeLike(index: Int, _ completion: @escaping (Result<Like, Error>) -> Void) {
         let photo = photos[index]
-        UIBlockingProgressHUD.show()
         imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) {[weak self] (result: Result<Like, Error>) in
             guard let self = self else { return }
             switch result {
-            case .success:
+            case .success(let like):
                 self.photos[index].isLiked.toggle()
-                cell.setIsLiked(isLikeButton: self.photos[index].isLiked)
-                UIBlockingProgressHUD.dismiss()
+                completion(.success(like))
             case .failure(let error):
                 print(error)
-                UIBlockingProgressHUD.dismiss()
-                
             }
         }
     }
 }
+

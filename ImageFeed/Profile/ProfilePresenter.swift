@@ -5,7 +5,9 @@ import WebKit
 public protocol ProfilePresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
     func viewDidLoad()
-    func makeAlert()
+    func makeAlert() -> UIAlertController
+    func logout()
+    func clean()
 }
 
 final class ProfilePresenter: ProfilePresenterProtocol {
@@ -14,26 +16,6 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     
     init(view: ProfileViewControllerProtocol) {
         self.view = view
-    }
-    
-    // MARK: - Private func
-    
-    private func logout() {
-        OAuth2TokenStorage().token = nil
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("Invalid Configuration")
-            return
-        }
-        window.rootViewController = SplashViewController()
-    }
-    
-    private func clean() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
-        }
     }
     
     // MARK: - Internal func
@@ -58,22 +40,29 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         view?.loadAvatar(url: url)
     }
     
-    func makeAlert() {
+    func makeAlert() -> UIAlertController {
         let alert = UIAlertController(
             title: "Пока, пока!",
             message: "Уверены, что хотите выйти?",
             preferredStyle: .alert)
-        let alertActionYes = UIAlertAction(title: "Да", style: .default) {[weak self] _ in
-            guard let self = self else { return }
-            self.logout()
-            self.clean()
+        return alert
+    }
+    
+    func logout() {
+        OAuth2TokenStorage().token = nil
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Invalid Configuration")
+            return
         }
-        let alertActionNo = UIAlertAction(title: "Нет", style: .default) {[weak self] _ in
-            guard let self = self else { return }
-            self.view?.dismiss()
+        window.rootViewController = SplashViewController()
+    }
+    
+    func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
         }
-        alert.addAction(alertActionYes)
-        alert.addAction(alertActionNo)
-        self.view?.showAlert(alert: alert)
     }
 }

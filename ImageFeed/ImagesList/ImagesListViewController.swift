@@ -4,7 +4,7 @@ import Kingfisher
 
 public protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListPresenterProtocol? { get set }
-    func updateTableViewAnimated(oldCount: Int, newCount: Int)  
+    func updateTableViewAnimated(oldCount: Int, newCount: Int)
 }
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
@@ -108,7 +108,18 @@ extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let index = indexPath.row
-        presenter?.changeLike(index: index, cell: cell)
+        UIBlockingProgressHUD.show()
+        presenter?.changeLike(index: index) { result in
+            //guard let self = self else { return }
+            switch result {
+            case .success(let like):
+                cell.setIsLiked(isLikeButton: like.isLiked)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print(error)
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
     }
 }
 
