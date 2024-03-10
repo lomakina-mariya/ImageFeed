@@ -51,7 +51,7 @@ final class ImagesListService {
         task.resume()
     }
     
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<IsLike, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Like, Error>) -> Void) {
         assert(Thread.isMainThread)
         guard task == nil else {return}
         let path = "/photos/\(photoId)/like"
@@ -59,11 +59,11 @@ final class ImagesListService {
         var request = URLRequest.makeHTTPRequest(path: path, httpMethod: method)
         request.setValue("Bearer \(OAuth2TokenStorage().token!)", forHTTPHeaderField: "Authorization")
         
-        let task = urlSession.objectTask(for: request) {[weak self] (result: Result<IsLike, Error>) in
+        let task = urlSession.objectTask(for: request) {[weak self] (result: Result<Like, Error>) in
             guard let self = self else {return}
             switch result {
-            case .success(let isLike):
-                completion(.success(isLike))
+            case .success(let like):
+                completion(.success(like))
                 if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                     self.photos[index].isLiked.toggle()
                 }

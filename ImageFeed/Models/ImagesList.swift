@@ -20,7 +20,7 @@ struct UrlsResult: Decodable {
     
 }
 
-struct Photo {
+public struct Photo {
     let id: String
     let size: CGSize
     let createdAt: Date?
@@ -30,7 +30,12 @@ struct Photo {
     var isLiked: Bool
 }
 
-struct IsLike: Decodable {
+public struct Like: Decodable {
+    let photo: PhotoResult
+    var isLiked: Bool {
+        photo.likedByUser
+    }
+
 }
 
 

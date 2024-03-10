@@ -45,7 +45,7 @@ extension URLRequest {
     static func makeHTTPRequest(
         path: String,
         httpMethod: String,
-        baseURL: URL = DefaultBaseURL,
+        baseURL: URL = AuthConfiguration.standard.defaultBaseURL,
         urlQueryItem: [URLQueryItem] = []
     ) -> URLRequest {
         guard let url = URL(string: path, relativeTo: baseURL) else {fatalError("Failed to create URL")}
